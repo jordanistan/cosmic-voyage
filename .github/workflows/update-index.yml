@@ -10,8 +10,10 @@ jobs:
   update-index:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # disables default token
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -37,9 +39,12 @@ jobs:
           EOF
 
       - name: Commit and push index.json
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
           git add images/index.json
-          git commit -m "Auto-update image metadata"
-          git push
+          git commit -m "Auto-update image metadata" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }}
