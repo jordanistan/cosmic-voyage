@@ -13,11 +13,17 @@
   </header>
 
   <main>
+    <!-- Photo Wheel / Carousel -->
     <section id="new-discoveries">
       <h2>🪐 New Discoveries</h2>
-      <div class="gallery" id="new-gallery"></div>
+      <div class="carousel-wrapper">
+        <div class="carousel" id="photo-carousel"></div>
+        <button class="carousel-btn prev" onclick="prevSlide()">←</button>
+        <button class="carousel-btn next" onclick="nextSlide()">→</button>
+      </div>
     </section>
 
+    <!-- Static Gallery -->
     <section>
       <h2>🌌 Full Gallery</h2>
       <div class="gallery" id="full-gallery"></div>
